@@ -20,7 +20,6 @@ void print_env(char **env)
 {
 	unsigned int i = 0;
 
-	print_msg("\n");
 	while (env[i] != NULL)
 	{
 		print_msg(env[i]);
