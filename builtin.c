@@ -37,7 +37,7 @@ int handle_builtin(char **args, char **env, int num_args, char *cmd)
 		{
 			free(args);
 			free(cmd);
-			exit_shell(EXIT_FAILURE);
+			exit_shell(EXIT_SUCCESS);
 		}
 		else
 			return (0);
