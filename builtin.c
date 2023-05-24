@@ -12,8 +12,6 @@
 
 int handle_builtin(char **args, char **env, int num_args, char *cmd)
 {
-	char *exit_msg = "Usage: exit [STATUS]\n\t\tSTATUS must be an integer\n";
-
 	if (num_args > 0)
 	{
 		if (_strcmp(args[0], "exit") == 0)
@@ -28,7 +26,8 @@ int handle_builtin(char **args, char **env, int num_args, char *cmd)
 				}
 				else
 				{
-					print_msg(exit_msg);
+					free(args);
+					free(cmd);
 					return (1);
 				}
 			}
@@ -36,7 +35,7 @@ int handle_builtin(char **args, char **env, int num_args, char *cmd)
 			{
 				free(args);
 				free(cmd);
-				exit_shell(0);
+				exit_shell(EXIT_FAILURE);
 				return (1);
 			}
 			else
@@ -44,6 +43,8 @@ int handle_builtin(char **args, char **env, int num_args, char *cmd)
 		}
 		else if (num_args == 1 && _strcmp(args[0], "env") == 0)
 		{
+			free(args);
+			free(cmd);
 			print_env(env);
 			return (1);
 		}
