@@ -6,7 +6,7 @@
  * read_cmd - read command and removes trailing end of line
  * @command:  string that will contain the command read
  * Return: 0 if cmd is read succesfully and different from \n
- * 1 if command read is \n
+ * 1 if command read is \n or " "
  * 2 if getline fails
  * 3 if getline encounters C-d
  */
@@ -18,7 +18,6 @@ int read_cmd(char **command)
 
 	/* read command*/
 	bytes_read = getline(command, &command_size, stdin);
-
 	if (bytes_read == -1)
 	{
 		/*perror("getline");*/
@@ -28,7 +27,7 @@ int read_cmd(char **command)
 	{
 		return (3);
 	}
-	if (*(*command + 0) == '\n')
+	if (*(*command + 0) == '\n' || _isspace(*command) == 1)
 		return (1);
 	/* Remove trailing newline character from the input*/
 	command_len = _strlen(*command);

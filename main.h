@@ -30,6 +30,8 @@ int _strcmp(char *s1, char *s2);
 int _isinteger(char *str);
 int _atoi(char *s);
 
+/*string_functions3.c*/
+int _isspace(char *str);
 /*cmd_functions.c*/
 int read_cmd(char **command);
 int parse_cmd(char *command, char **args);
