@@ -11,45 +11,45 @@
 
 
 int handle_builtin(char **args, char **env, int num_args, char *cmd)
-{
-	if (num_args > 0)
+{	int value;
+
+	if (num_args <= 0)
+		return (0);
+	if (_strcmp(args[0], "exit") == 0)
 	{
-		if (_strcmp(args[0], "exit") == 0)
+		if (num_args == 2)
 		{
-			if (num_args == 2)
+			if (_isinteger(args[1]) == 1)
 			{
-				if (_isinteger(args[1]) == 1)
-				{
-					free(args);
-					free(cmd);
-					exit_shell(_atoi(args[1]));
-				}
-				else
-				{
-					free(args);
-					free(cmd);
-					return (1);
-				}
+				value = _atoi(args[1]);
+				free(args);
+				free(cmd);
+				exit_shell(value);
 			}
-			else if (num_args == 1)
+			else
 			{
 				free(args);
 				free(cmd);
-				exit_shell(EXIT_FAILURE);
 				return (1);
 			}
-			else
-				return (0);
 		}
-		else if (num_args == 1 && _strcmp(args[0], "env") == 0)
+		else if (num_args == 1)
 		{
 			free(args);
 			free(cmd);
-			print_env(env);
-			return (1);
+			exit_shell(EXIT_FAILURE);
 		}
 		else
 			return (0);
 	}
-	return (0);
+	else if (num_args == 1 && _strcmp(args[0], "env") == 0)
+	{
+		free(args);
+		free(cmd);
+		print_env(env);
+		return (1);
+	}
+	else
+		return (0);
+	return (1);
 }
