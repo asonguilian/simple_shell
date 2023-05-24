@@ -20,15 +20,18 @@ int read_cmd(char **command)
 	bytes_read = getline(command, &command_size, stdin);
 	if (bytes_read == -1)
 	{
-		/*perror("getline");*/
+		free(command);
 		return (2);
 	}
 	if (bytes_read == 0)
 	{
+		free(command);
 		return (3);
 	}
 	if (*(*command + 0) == '\n' || _isspace(*command) == 1)
+	{
 		return (1);
+	}
 	/* Remove trailing newline character from the input*/
 	command_len = _strlen(*command);
 	if (command_len > 0 && *(*command + command_len - 1) == '\n')
@@ -94,7 +97,6 @@ int execute_cmd(char ***args, char *file_name, char **env)
 	int status;
 	char *path;
 
-	/*use the which function to locate the path of the file*/
 	path = _which(*args[0], env);
 	if (path == NULL)
 	{
@@ -104,7 +106,7 @@ int execute_cmd(char ***args, char *file_name, char **env)
 	pid = fork();
 	if (pid == -1)
 	{
-		perror("Fork failed\n");
+		perror(file_name);
 		free(path);
 		return (1);
 	}
@@ -112,8 +114,9 @@ int execute_cmd(char ***args, char *file_name, char **env)
 	{
 		if (execve(path, *args, env) == -1)
 		{
+			free(path);
 			perror(file_name);
-			exit(1);
+			exit(EXIT_FAILURE);
 		}
 	}
 	else
@@ -122,7 +125,7 @@ int execute_cmd(char ***args, char *file_name, char **env)
 			wpid = waitpid(pid, &status, WUNTRACED);
 			if (wpid == -1)
 			{
-				perror("waitpid");
+				perror(file_name);
 				free(path);
 				return (1);
 			}

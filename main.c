@@ -9,9 +9,8 @@
  */
 void handle_interactive_mode(char *prompt, char **env, char *file_name)
 {
-	char *command = NULL;
+	char *command = NULL, **args;
 	int cmd_val, num_args, flag_builtin;
-	char **args;
 
 	while (1)
 	{
@@ -23,12 +22,13 @@ void handle_interactive_mode(char *prompt, char **env, char *file_name)
 		if (cmd_val == 2 || cmd_val == 3)
 		{
 			free(command);
-			exit(0);
+			exit(EXIT_SUCCESS);
 		}
 		args = malloc(sizeof(char *) * 1024);
 		if (args == NULL)
 		{
-			perror("malloc");
+			free(command);
+			perror(file_name);
 			exit(EXIT_FAILURE);
 		}
 		num_args = parse_cmd(command, args);
@@ -67,12 +67,13 @@ void handle_non_interactive_mode(char **env, char *file_name)
 	if (cmd_val == 2 || cmd_val == 3)
 	{
 		free(command);
-		exit(0);
+		exit(EXIT_SUCCESS);
 	}
 	args = malloc(sizeof(char *) * 1024);
 	if (args == NULL)
 	{
-		perror("malloc");
+		free(command);
+		perror(file_name);
 		exit(EXIT_FAILURE);
 	}
 	num_args = parse_cmd(command, args);

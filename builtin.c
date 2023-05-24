@@ -21,6 +21,7 @@ int handle_builtin(char **args, char **env, int num_args)
 			{
 				if (_isinteger(args[1]) == 1)
 				{
+					free(args);
 					exit_shell(_atoi(args[1]));
 				}
 				else
@@ -31,13 +32,12 @@ int handle_builtin(char **args, char **env, int num_args)
 			}
 			else if (num_args == 1)
 			{
+				free(args);
 				exit_shell(0);
 				return (1);
 			}
 			else
-			{
 				return (0);
-			}
 		}
 		else if (num_args == 1 && _strcmp(args[0], "env") == 0)
 		{
@@ -45,9 +45,7 @@ int handle_builtin(char **args, char **env, int num_args)
 			return (1);
 		}
 		else
-		{
 			return (0);
-		}
 	}
 	return (0);
 }

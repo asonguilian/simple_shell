@@ -42,6 +42,7 @@ char *_which(char *cmd, char **environ)
 		if (stat(cmd, &st) == 0)
 		{
 			full_path = _strdup(cmd);
+			free(path_copy);
 			return (full_path);
 		}
 	}
