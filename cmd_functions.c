@@ -20,12 +20,10 @@ int read_cmd(char **command)
 	bytes_read = getline(command, &command_size, stdin);
 	if (bytes_read == -1)
 	{
-		free(command);
 		return (2);
 	}
 	if (bytes_read == 0)
 	{
-		free(command);
 		return (3);
 	}
 	if (*(*command + 0) == '\n' || _isspace(*command) == 1)

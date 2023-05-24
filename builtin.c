@@ -5,11 +5,12 @@
  * @args: pointer to array of command arguments
  * @env: pointer to array containing environment
  * @num_args: number of tokens in command
+ * @cmd: command
  * Return: 1 if command is built-in command, otherwise 0
  */
 
 
-int handle_builtin(char **args, char **env, int num_args)
+int handle_builtin(char **args, char **env, int num_args, char *cmd)
 {
 	char *exit_msg = "Usage: exit [STATUS]\n\t\tSTATUS must be an integer\n";
 
@@ -22,6 +23,7 @@ int handle_builtin(char **args, char **env, int num_args)
 				if (_isinteger(args[1]) == 1)
 				{
 					free(args);
+					free(cmd);
 					exit_shell(_atoi(args[1]));
 				}
 				else
@@ -33,6 +35,7 @@ int handle_builtin(char **args, char **env, int num_args)
 			else if (num_args == 1)
 			{
 				free(args);
+				free(cmd);
 				exit_shell(0);
 				return (1);
 			}

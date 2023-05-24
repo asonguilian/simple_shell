@@ -45,7 +45,7 @@ void print_env(char **env);
 void exit_shell(int status);
 
 /*builtin.c*/
-int handle_builtin(char **args, char **env, int num_args);
+int handle_builtin(char **args, char **env, int num_args, char *cmd);
 
 
 /*main.c*/

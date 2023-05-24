@@ -13,6 +13,15 @@ char *_which(char *cmd, char **environ)
 	int path_length, cmd_length;
 	struct stat st;
 
+	/*check if command is an absolute path*/
+	if (cmd[0] == '/')
+	{
+		if (stat(cmd, &st) == 0)
+		{
+			full_path = _strdup(cmd);
+			return (full_path);
+		}
+	}
 	path = _getenv("PATH", environ);
 	/*check if path is empty*/
 	if (path == NULL || *path == '\0')
@@ -35,16 +44,6 @@ char *_which(char *cmd, char **environ)
 			return (full_path);
 		}
 		dir = strtok(NULL, ":");
-	}
-	/*check if command is an absolute path*/
-	if (cmd[0] == '/')
-	{
-		if (stat(cmd, &st) == 0)
-		{
-			full_path = _strdup(cmd);
-			free(path_copy);
-			return (full_path);
-		}
 	}
 	free(full_path);
 	free(path_copy);
